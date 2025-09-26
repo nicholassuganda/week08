@@ -1,0 +1,41 @@
+name: Master CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - '.github/workflows/**'
+
+jobs:
+  backend-ci:
+    uses: ./.github/workflows/backend_ci.yml
+    secrets: inherit
+    
+  frontend-ci:
+    uses: ./.github/workflows/frontend_ci.yml
+    secrets: inherit
+    
+  backend-cd:
+    needs: [backend-ci]
+    uses: ./.github/workflows/backend-cd.yml
+    secrets: inherit
+    if: github.ref == 'refs/heads/main' # Only deploy to production from main
+    
+  frontend-cd:
+    needs: [frontend-ci, backend-cd]
+    uses: ./.github/workflows/frontend-cd.yml
+    with:
+      product_api_ip: ${{ needs.backend-cd.outputs.PRODUCT_API_IP }}
+      order_api_ip: ${{ needs.backend-cd.outputs.ORDER_API_IP }}
+      aks_cluster_name: 'week8aks'
+      aks_resource_group: 'deakinuni'
+    secrets: inherit
+    if: github.ref == 'refs/heads/main' # Only deploy to production from main
