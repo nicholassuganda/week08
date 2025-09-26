@@ -35,7 +35,5 @@ jobs:
     with:
       product_api_ip: ${{ needs.backend-cd.outputs.PRODUCT_API_IP }}
       order_api_ip: ${{ needs.backend-cd.outputs.ORDER_API_IP }}
-      aks_cluster_name: 'week8aks'
-      aks_resource_group: 'deakinuni'
     secrets: inherit
     if: github.ref == 'refs/heads/main' # Only deploy to production from main

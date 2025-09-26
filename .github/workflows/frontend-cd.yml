@@ -2,16 +2,17 @@ name: CD - Deploy Frontend to AKS
 
 on:
   workflow_dispatch:
-  workflow_call:
     inputs:
       product_api_ip:
         description: 'External IP of Product Service'
         required: true
         default: 'http://4.198.145.121:8000'
+        type: string
       order_api_ip:
         description: 'External IP of Order Service'
         required: true
         default: 'http://4.198.88.251:8001'
+        type: string
 
   workflow_call:
     inputs:
