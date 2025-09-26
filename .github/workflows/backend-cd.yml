@@ -7,7 +7,7 @@ on:
 env:
   AKS_CLUSTER_NAME: ${{ secrets.AKS_CLUSTER_NAME }}
   AKS_RESOURCE_GROUP: ${{ secrets.AKS_RESOURCE_GROUP }}
-  ACR_NAME: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
+  ACR_NAME: ${{ secrets.AZURE_CONTAINER_REGISTRY_NAME }}
 
 jobs:
   deploy_backend:
